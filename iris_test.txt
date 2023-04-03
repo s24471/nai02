@@ -27,4 +27,4 @@
  4,9    	 2,5    	 4,5    	 1,7    	 Iris-virginica 
  7,3    	 2,9    	 6,3    	 1,8    	 Iris-virginica 
  6,7    	 2,5    	 5,8    	 1,8    	 Iris-virginica 
- 7,2    	 3,6    	 6,1    	 2,5    	 Iris-virginica 
+ 7,2    	 3,6    	 6,1    	 2,5    	 Iris-virginica

@@ -6,7 +6,7 @@ public class Main {
 
     public static ArrayList<Value> arr;
     public static ArrayList<Value> test;
-    public static String lookingFor = "Iris-versicolor" ;
+    public static String lookingFor = "Iris-setosa" ;
     static int ilosc =-1;
     public static ArrayList<Double> maxs;
     public static ArrayList<Double> mins;
@@ -47,10 +47,6 @@ public class Main {
                     for (int i = 0; i < value.arr.size(); i++) {
                         value.arr.set(i, (value.arr.get(i) - mins.get(i)) / (maxs.get(i) - mins.get(i)));
                     }
-                  /*  for (double d: value.arr){
-                        System.out.print(d+" ");
-                    }
-                    System.out.println();*/
                 }
             }
 
@@ -66,33 +62,18 @@ public class Main {
                 }
             }
             s2.close();
-
-
-
-
             Perceptron perceptron = new Perceptron(ilosc-1, lookingFor);
             for(double w: perceptron.w){
                 System.out.print(w + " ");
             }
             System.out.println();
-            System.out.println(perceptron.O);
+            System.out.println("O: "+ perceptron.O);
             System.out.println("===");
             while(true){
                 for (Value v : arr) {
                     perceptron.train(v.arr, v.name);
                 }
-                int good =0;
-                for(Value v: arr){
-                    if(perceptron.get(v.arr)==((v.name.equals(lookingFor)))){
-                        good++;
-                    }
-                }
-               /*for(Value v: arr){
-                    if(perceptron.get(v.arr)==((v.name.equals(lookingFor)))){
-                        good++;
-                    }
-                }*/
-                System.out.println((double)good/(arr.size())*100 +"%");
+                int good = accurate(perceptron, arr);
                 for(double w: perceptron.w){
                     System.out.print(w + " ");
                 }
@@ -101,20 +82,25 @@ public class Main {
                 System.out.println("===");
                 if(good==arr.size())break;
             }
-
-            int good =0;
-            for(Value v: test){
-                if(perceptron.get(v.arr)==((v.name.equals(lookingFor)))){
-                    good++;
-                }
-            }
-            System.out.println((double)good/(test.size())*100 +"%");
             manualInput(perceptron, opt);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
     }
+
+    private static int accurate(Perceptron perceptron, ArrayList<Value> arr) {
+        int good =0;
+        for(Value v: arr){
+            if(perceptron.get(v.arr)==((v.name.equals(lookingFor)))){
+                good++;
+            }
+        }
+        System.out.println("dobrze: " + good + "/" + arr.size());
+        System.out.println((double)good/(arr.size())*100 +"%");
+        return good;
+    }
+
     public static void manualInput(Perceptron perceptron, int opt) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -153,9 +139,6 @@ public class Main {
 class Value{
     ArrayList<Double> arr;
     String name;
-
-
-
     public Value(String[] s) {
         arr = new ArrayList<>();
         if(Main.ilosc == -1) Main.ilosc = s.length;
@@ -168,18 +151,16 @@ class Value{
         for (int i = 0; i < s.length-1; i++) {
             arr.add(Double.parseDouble(s[i].replace(',', '.').strip()));
         }
-
-
     }
 
     @Override
     public String toString() {
-        String ans = "";
+        StringBuilder ans = new StringBuilder();
         for(Double d: arr){
-            ans+=d.toString()+"\t";
+            ans.append(d.toString()).append("\t");
         }
 
-        return ans;
+        return ans.toString();
     }
 
 }

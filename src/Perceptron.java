@@ -11,14 +11,12 @@ public class Perceptron {
     public Perceptron(int ilosc, String looking) {
         this.ilosc = ilosc;
         w = new double[ilosc];
-        //w = new double[]{0.3200727989119898, 0.9343580151513757, 0.12296710816826542, 0.09699274832563921};
         Random random = new Random();
         for (int i = 0; i < w.length; i++) {
             w[i] = random.nextDouble() + 0.01;
-            //w[i] = 1;
         }
-        O=1;
         this.looking=looking;
+        O=1;
         a=0.00001;
         b=0.00001;
     }
